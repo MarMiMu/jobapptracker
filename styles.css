@@ -1,0 +1,387 @@
+:root {
+    --paper: #000411;
+    --ink: #7ca0df;
+    --ink-soft: #c6c8ce;
+    --ink-faint: #9498a3;
+    --rule: #d8d3c4;
+    --stamp: #3b82f6;
+    --stamp-soft: #e8d3ce;
+    --ok: #214669;
+    --ok-soft: #dfe8e0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Courier New', Courier, monospace;
+    padding: 32px 20px 60px;
+}
+
+.sheet {
+    max-width: 910px;
+    margin: 0 auto;
+}
+
+.letterhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 28px;
+}
+
+.letterhead h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.letterhead .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+}
+
+.today-tag {
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: right;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.stat {
+    border: 1px solid var(--rule);
+    padding: 12px 10px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+}
+
+.stat .num {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat .lbl {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 6px;
+}
+
+.stat.streak .num {
+    color: var(--stamp);
+}
+
+.goal-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: -18px 0 24px;
+}
+
+.goal-row input {
+    width: 42px;
+    font-family: inherit;
+    font-size: 12px;
+    border: 1px solid var(--rule);
+    background: #fff;
+    padding: 2px 4px;
+    color: var(--ink);
+    text-align: center;
+}
+
+.add-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.add-form input {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 9px 10px;
+    border: 1px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+}
+
+.add-form input[name="company"] {
+    flex: 1.3;
+}
+
+.add-form input[name="role"] {
+    flex: 1;
+}
+
+.add-form button {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: var(--stamp);
+    color: #fff;
+    border: 1px solid var(--stamp);
+    padding: 0 18px;
+    cursor: pointer;
+}
+
+.add-form button:hover {
+    background: #60a5fa;
+}
+
+.hint {
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-bottom: 26px;
+}
+
+.section-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.heatmap-wrap {
+    margin-bottom: 32px;
+    overflow-x: auto;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.heatmap {
+    display: flex;
+    gap: 2px;
+}
+
+#heatmap-months {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 6px;
+    margin-top: 6px;
+}
+
+.month-label {
+    width: 13px;
+    font-size: 9px;
+    color: var(--ink-faint);
+    flex-shrink: 0;
+}
+
+.week-col {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cell {
+    width: 13px;
+    height: 13px;
+    background: #1a1d27;
+    position: relative;
+    cursor: default;
+    border-radius: 2px;
+}
+
+.cell.future {
+    visibility: hidden;
+}
+
+.cell[data-level="1"] {
+    background: #1e3a5f;
+}
+
+.cell[data-level="2"] {
+    background: #1d5fa8;
+}
+
+.cell[data-level="3"] {
+    background: #3b82f6;
+}
+
+.cell[data-level="4"] {
+    background: #60a5fa;
+}
+
+.cell[data-level="5"] {
+    background: #93c5fd;
+}
+
+.cell:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 6px;
+    white-space: nowrap;
+    z-index: 5;
+}
+
+.cell.today {
+    outline: 1px solid var(--stamp);
+    box-shadow: 0 0 1px var(--stamp);
+}
+
+.entries {
+    border: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.entry-search {
+    width: 100%;
+    padding: 9px 10px;
+    margin-bottom: 16px;
+    font-family: inherit;
+    border: 1px solid var(--ink);
+    background: #fff;
+}
+
+.entry-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 13px;
+}
+
+.entry-row:last-child {
+    border-bottom: none;
+}
+
+.entry-row .date {
+    color: var(--ink-faint);
+    font-size: 11px;
+    width: 68px;
+    flex-shrink: 0;
+}
+
+.entry-row .company {
+    color: #93c5fd;
+    font-weight: 700;
+    flex: 1;
+}
+
+.entry-row .role {
+    color: var(--ink-soft);
+    flex: 1;
+}
+
+.entry-row .del {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.entry-row .del:hover {
+    color: var(--stamp);
+}
+
+.status-select {
+    font-family: inherit;
+    font-size: 11px;
+    padding: 3px 6px;
+    border: 1px solid var(--rule);
+    background: #fff;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+}
+
+.status-select[data-status="interviewing"] {
+    border-color: #b1902c;
+    color: #8a6f1f;
+}
+
+.status-select[data-status="offer"] {
+    border-color: var(--ok);
+    color: var(--ok);
+    font-weight: 700;
+}
+
+.status-select[data-status="rejected"] {
+    border-color: var(--stamp);
+    color: var(--stamp);
+}
+
+.status-select[data-status="withdrawn"] {
+    border-color: var(--ink-faint);
+    color: var(--ink-faint);
+}
+
+.empty {
+    padding: 30px 12px;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 13px;
+}
+
+.legend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--ink-faint);
+    margin-top: 6px;
+}
+
+.legend .cell {
+    cursor: default;
+}
+
+.filter {
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.status {
+    margin-bottom: 16px;
+}
+
+.signout-btn {
+    font-family: inherit;
+    font-size: 11px;
+    background: none;
+    border: 1px solid var(--ink);
+    color: var(--ink-soft);
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.signout-btn:hover {
+    background: var(--ink);
+    color: #fff;
+}

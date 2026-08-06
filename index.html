@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Application Log</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div id="auth-screen" style="max-width:360px; margin:80px auto; text-align:center;">
+    <h2 style="font-size:18px; margin-bottom:16px;">Sign in to your log</h2>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="you@email.com" required
+        style="width:100%; padding:9px 10px; margin-bottom:10px; font-family:inherit;">
+      <input type="password" id="login-password" placeholder="Password" required minlength="6"
+        style="width:100%; padding:9px 10px; margin-bottom:10px; font-family:inherit;">
+      <button type="submit" id="signin-btn"
+        style="width:100%; padding:9px; margin-bottom:6px; font-family:inherit; font-weight:700;">Sign in</button>
+      <button type="button" id="signup-btn" style="width:100%; padding:9px; font-family:inherit;">Create
+        account</button>
+    </form>
+    <p id="login-status" style="font-size:12px; color:var(--ink-soft); margin-top:10px;"></p>
+  </div>
+  <div id="app-screen" style="display:none;">
+    <div class="sheet">
+      <div class="letterhead">
+        <div>
+          <h1>Job Application Log</h1>
+          <div class="sub">one entry, one shot fired</div>
+        </div>
+        <div class="today-tag" id="today-label"></div>
+        <button class="signout-btn" onclick="signOut()">Sign out</button>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <select class="filter" id="year-select"></select>
+      </div>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="num" id="stat-today">0</div>
+          <div class="lbl">Today</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="stat-total">0</div>
+          <div class="lbl">All time</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="stat-activedays">0</div>
+          <div class="lbl">Days with Apps</div>
+        </div>
+        <div class="stat streak">
+          <div class="num" id="stat-streak">0</div>
+          <div class="lbl">Day streak</div>
+        </div>
+        <div class="stat streak">
+          <div class="num" id="stat-longeststreak">0</div>
+          <div class="lbl">Longest streak</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="stat-most">0</div>
+          <div class="lbl">Most in a day</div>
+        </div>
+        <div class="stat rate">
+          <div class="num" id="stat-interview-rate">0<span>%</span></div>
+          <div class="lbl">Interview Rate</div>
+        </div>
+      </div>
+
+      <form class="add-form" id="add-form">
+        <input type="text" name="company" placeholder="Company" required autocomplete="off">
+        <input type="text" name="role" placeholder="Role (optional)" autocomplete="off">
+        <button type="submit">Log it</button>
+      </form>
+      <div class="hint">Logs against today's date. Loading your saved entries...</div>
+
+      <div class="section-label">Daily Applications</div>
+      <div class="heatmap-wrap">
+        <div id="heatmap-months"></div>
+        <div class="heatmap" id="heatmap"></div>
+        <div class="legend">
+          Less
+          <div class="cell" data-level="0"></div>
+          <div class="cell" data-level="1"></div>
+          <div class="cell" data-level="2"></div>
+          <div class="cell" data-level="3"></div>
+          <div class="cell" data-level="4"></div>
+          <div class="cell" data-level="5"></div>
+          More
+        </div>
+      </div>
+      <div class="section-label">Recent entries</div>
+      <input class="entry-search" type="text" id="entry-search" placeholder="Search company or role..." />
+      <select class="filter status" id="status-filter">
+        <option value="">All statuses</option>
+        <option value="applied">Applied</option>
+        <option value="interviewing">Interviewing</option>
+        <option value="offer">Offer</option>
+        <option value="rejected">Rejected</option>
+        <option value="withdrawn">Withdrawn</option>
+      </select>
+      <div class="entries" id="entries"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    window.SB_URL = 'https://vvacsycbzujfvdfxcqng.supabase.co';
+    window.SB_KEY = 'sb_publishable_NBRBJs3ywbscV6BkjlZ9_g_AYzxZ0MN';
+  </script>
+  <script src="app.js"></script>
+</body>
+
+</html>
