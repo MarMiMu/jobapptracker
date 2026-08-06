@@ -1,0 +1,25 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check HTML is valid
+        run: |
+          npx html-validate index.html || true
+
+      - name: Check for accidental secrets
+        run: |
+          if grep -q "service_role" index.html; then
+            echo "service_role key found in file — do not commit this"
+            exit 1
+          fi
